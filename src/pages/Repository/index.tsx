@@ -1,15 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import logoImg from '../../assets/logo.svg';
+
+import api from '../../services/api';
+
 import { Header, RepositoryInfo, Issues } from './styles';
 
 interface RepositoryParams {
   repository: string;
 }
 
+interface Repository {
+  id: number;
+  owner: {
+    login: string;
+    avatar_url: string;
+  };
+  full_name: string;
+  description: string;
+  stargazers_count: number;
+  forks_count: number;
+  open_issues_count: number;
+}
+
 const Repository: React.FC = () => {
+  const [repository, setRepository] = useState<Repository | null>(null);
+  const [issues, setIssues] = useState([]);
+
   const { params } = useRouteMatch<RepositoryParams>();
+
+  useEffect(() => {
+    api.get(`repos/${params.repository}`).then((response) => {
+      setRepository(response.data);
+    });
+
+    api.get(`repos/${params.repository}/issues`).then((response) => {
+      setIssues(response.data);
+    });
+  }, [params.repository]);
 
   return (
     <>
@@ -21,32 +50,34 @@ const Repository: React.FC = () => {
         </Link>
       </Header>
 
-      <RepositoryInfo>
-        <header>
-          <img
-            src="https://avatars2.githubusercontent.com/u/69631?s=200&v=4"
-            alt="Facebook/react"
-          />
-          <div>
-            <strong>facebook/react</strong>
-            <p>descrição do repositório</p>
-          </div>
-        </header>
-        <ul>
-          <li>
-            <strong>1999</strong>
-            <span>Stars</span>
-          </li>
-          <li>
-            <strong>7474</strong>
-            <span>Forks</span>
-          </li>
-          <li>
-            <strong>8282</strong>
-            <span>Open Issues</span>
-          </li>
-        </ul>
-      </RepositoryInfo>
+      {repository && (
+        <RepositoryInfo>
+          <header>
+            <img
+              src={repository.owner.avatar_url}
+              alt={repository.owner.login}
+            />
+            <div>
+              <strong>{repository.full_name}</strong>
+              <p>{repository.description}</p>
+            </div>
+          </header>
+          <ul>
+            <li>
+              <strong>{repository.stargazers_count}</strong>
+              <span>Stars</span>
+            </li>
+            <li>
+              <strong>{repository.forks_count}</strong>
+              <span>Forks</span>
+            </li>
+            <li>
+              <strong>{repository.open_issues_count}</strong>
+              <span>Open Issues</span>
+            </li>
+          </ul>
+        </RepositoryInfo>
+      )}
 
       <Issues>
         <Link to="{`/repositories/${repository.full_name}`}">
