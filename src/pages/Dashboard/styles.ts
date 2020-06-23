@@ -65,6 +65,7 @@ export const Repositories = styled.div`
   a {
     align-items: center;
     background: #363636;
+    border-radius: 5px;
     display: flex;
     padding: 24px;
     text-decoration: none;
@@ -79,7 +80,7 @@ export const Repositories = styled.div`
     }
 
     img {
-      border-radius: 50%;
+      border-radius: 5px;
       height: 64px;
       width: 64px;
     }
