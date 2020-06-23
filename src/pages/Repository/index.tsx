@@ -24,9 +24,20 @@ interface Repository {
   open_issues_count: number;
 }
 
+interface Issue {
+  id: number;
+  html_url: string;
+  title: string;
+  user: {
+    login: string;
+    avatar_url: string;
+    html_url: string;
+  };
+}
+
 const Repository: React.FC = () => {
   const [repository, setRepository] = useState<Repository | null>(null);
-  const [issues, setIssues] = useState([]);
+  const [issues, setIssues] = useState<Issue[]>([]);
 
   const { params } = useRouteMatch<RepositoryParams>();
 
@@ -80,13 +91,21 @@ const Repository: React.FC = () => {
       )}
 
       <Issues>
-        <Link to="{`/repositories/${repository.full_name}`}">
-          <div>
-            <strong>full_name</strong>
-            <p>description</p>
+        {issues.map((issue) => (
+          <div key={issue.id} className="issue-items">
+            <a className="avatar" href={issue.user.html_url} target="blank">
+              <img src={issue.user.avatar_url} alt={issue.user.login} />
+            </a>
+
+            <a className="issue-info" href={issue.html_url} target="blank">
+              <div>
+                <strong>{issue.title}</strong>
+                <p>{issue.user.login}</p>
+              </div>
+              <FiChevronRight size={20} />
+            </a>
           </div>
-          <FiChevronRight size={20} />
-        </Link>
+        ))}
       </Issues>
     </>
   );
