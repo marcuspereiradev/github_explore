@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  Explore Github Repositories. Builting with ReactJS and Styled Components.
+  Explore Github Repositories. Made with ReactJS and Styled Components.
 </p>
 
 <br />
