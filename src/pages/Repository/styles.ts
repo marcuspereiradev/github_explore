@@ -29,23 +29,29 @@ export const RepositoryInfo = styled.section`
     align-items: center;
     display: flex;
 
-    img {
-      border-radius: 50%;
-      width: 120px;
-    }
+    a {
+      align-items: center;
+      display: flex;
+      text-decoration: none;
 
-    div {
-      margin-left: 24px;
-
-      strong {
-        color: #3a3a3a;
-        font-size: 2.25em;
+      img {
+        border-radius: 50%;
+        width: 120px;
       }
 
-      p {
-        color: #a5a5a5;
-        font-size: 1.125em;
-        margin-top: 4px;
+      div {
+        margin-left: 24px;
+
+        strong {
+          color: #3a3a3a;
+          font-size: 2.25em;
+        }
+
+        p {
+          color: #a5a5a5;
+          font-size: 1.125em;
+          margin-top: 4px;
+        }
       }
     }
   }
@@ -77,6 +83,23 @@ export const RepositoryInfo = styled.section`
 
 export const Issues = styled.div`
   margin-top: 80px;
+  max-height: 390px;
+  overflow: hidden scroll;
+
+  &::-webkit-scrollbar {
+    width: 18px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #eee;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #a5a5a5a5;
+    border-left: 5px solid #eee;
+    border-radius: 5px;
+    border-right: 5px solid #eee;
+  }
 
   .issue-items {
     align-items: center;
@@ -96,6 +119,7 @@ export const Issues = styled.div`
 
     .avatar img {
       border-radius: 5px;
+      height: 64px;
       width: 64px;
     }
 
@@ -111,13 +135,16 @@ export const Issues = styled.div`
 
         strong {
           color: #a5a5a5a5;
+          display: block;
           font-size: 1.25em;
+          max-width: 680px;
         }
 
         p {
           color: #e5e5e5e5;
           font-size: 1.125em;
           margin-top: 4px;
+          max-width: 680px;
         }
       }
 

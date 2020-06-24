@@ -61,6 +61,23 @@ export const Error = styled.span`
 
 export const Repositories = styled.div`
   margin-top: 80px;
+  max-height: 380px;
+  overflow: hidden scroll;
+
+  &::-webkit-scrollbar {
+    width: 18px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #eee;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #a5a5a5a5;
+    border-left: 5px solid #eee;
+    border-radius: 5px;
+    border-right: 5px solid #eee;
+  }
 
   a {
     align-items: center;
@@ -88,16 +105,20 @@ export const Repositories = styled.div`
     div {
       flex: 1;
       margin: 0 16px 0 16px;
+      width: 100%;
 
       strong {
         color: #a5a5a5a5;
+        display: block;
         font-size: 1.25em;
+        max-width: 680px;
       }
 
       p {
         color: #e5e5e5e5;
         font-size: 1.125em;
         margin-top: 4px;
+        max-width: 680px;
       }
     }
 

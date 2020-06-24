@@ -13,15 +13,16 @@ interface RepositoryParams {
 
 interface Repository {
   id: number;
+  description: string;
+  full_name: string;
+  forks_count: number;
+  html_url: string;
+  open_issues_count: number;
+  stargazers_count: number;
   owner: {
     login: string;
     avatar_url: string;
   };
-  full_name: string;
-  description: string;
-  stargazers_count: number;
-  forks_count: number;
-  open_issues_count: number;
 }
 
 interface Issue {
@@ -64,14 +65,16 @@ const Repository: React.FC = () => {
       {repository && (
         <RepositoryInfo>
           <header>
-            <img
-              src={repository.owner.avatar_url}
-              alt={repository.owner.login}
-            />
-            <div>
-              <strong>{repository.full_name}</strong>
-              <p>{repository.description}</p>
-            </div>
+            <a href={repository.html_url} target="blank">
+              <img
+                src={repository.owner.avatar_url}
+                alt={repository.owner.login}
+              />
+              <div>
+                <strong>{repository.full_name}</strong>
+                <p>{repository.description}</p>
+              </div>
+            </a>
           </header>
           <ul>
             <li>
