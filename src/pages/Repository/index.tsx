@@ -5,7 +5,7 @@ import logoImg from '../../assets/logo.svg';
 
 import api from '../../services/api';
 
-import { Header, RepositoryInfo, Issues } from './styles';
+import { Header, RepositoryInfo, Issues, Loading, Error } from './styles';
 
 interface RepositoryParams {
   repository: string;
@@ -39,17 +39,31 @@ interface Issue {
 const Repository: React.FC = () => {
   const [repository, setRepository] = useState<Repository | null>(null);
   const [issues, setIssues] = useState<Issue[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingError, setError] = useState('');
 
   const { params } = useRouteMatch<RepositoryParams>();
 
   useEffect(() => {
-    api.get(`repos/${params.repository}`).then((response) => {
-      setRepository(response.data);
-    });
+    async function loadingData() {
+      setLoading(true);
 
-    api.get(`repos/${params.repository}/issues`).then((response) => {
-      setIssues(response.data);
-    });
+      await Promise.all([
+        api.get(`repos/${params.repository}`),
+        api.get(`repos/${params.repository}/issues`),
+      ])
+        .then((response) => {
+          const [repositoryData, issuesData] = response;
+
+          setRepository(repositoryData.data);
+          setIssues(issuesData.data);
+          setError('');
+        })
+        .catch((error) => setError(error.message))
+        .finally(() => setLoading(false));
+    }
+
+    loadingData();
   }, [params.repository]);
 
   return (
@@ -110,6 +124,11 @@ const Repository: React.FC = () => {
           </div>
         ))}
       </Issues>
+
+      {loading && <Loading>Loading informations of the repository...</Loading>}
+      {loadingError && (
+        <Error>Cannot possible to loading the informations</Error>
+      )}
     </>
   );
 };

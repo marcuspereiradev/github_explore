@@ -154,3 +154,18 @@ export const Issues = styled.div`
     }
   }
 `;
+
+export const Loading = styled.h3`
+  align-items: center;
+  display: flex;
+  height: 200px;
+  justify-content: center;
+`;
+
+export const Error = styled.h3`
+  align-items: center;
+  color: #b20000;
+  display: flex;
+  height: 200px;
+  justify-content: center;
+`;
